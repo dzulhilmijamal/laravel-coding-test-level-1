@@ -7,6 +7,8 @@ use App\Models\Event;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Mail;
+use App\Mail\NotifyMail;
 
 class MainController extends Controller
 {
@@ -41,6 +43,12 @@ class MainController extends Controller
         $save = $event->save();
 
         if($save){
+            $mailData = [
+                'title' => 'Event Notification',
+                'body' => 'New Event has been created successfully'
+            ];
+             
+            Mail::to('dzulhilmijamal.dj@gmail.com')->send(new NotifyMail($mailData));
             Session::flash('success', 'Event Succesfully Created'); 
             return Redirect::to(url('/events'));
         }else{

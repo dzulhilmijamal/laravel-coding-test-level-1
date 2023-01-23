@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function () {return view('login');});
+Route::post('/auth', [AuthController::class, 'index']);
+Route::get('/logout', [AuthController::class, 'logout']);
+
+Route::middleware(['isLogin'])->group(function () {
+    Route::get('/events', [MainController::class, 'index']);
+    Route::get('/events/create', [MainController::class, 'create']);
+    Route::post('/events/insert', [MainController::class, 'insert']);
+    Route::get('/events/view/{id}', [MainController::class, 'view']);
+    Route::get('/events/edit/{id}', [MainController::class, 'edit']);
+    Route::post('/events/update/{id}', [MainController::class, 'update']);
+    Route::get('/events/delete/{id}', [MainController::class, 'delete']);
 });
+
+
