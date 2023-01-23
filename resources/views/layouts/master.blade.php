@@ -38,6 +38,12 @@
             </div>
             </div>
             @endif
+    <nav class="navbar bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light" href="#">
+            <img src="{{ asset('assets/media/laravel.png') }}" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+            <b>Laravel Live Coding Test</b> 
+            </a>
         </div>
     </nav>
     @yield('container')
