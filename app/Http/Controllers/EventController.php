@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
+use Mail;
+use App\Mail\NotifyMail;
 
 class EventController extends Controller
 {
     public function index()
     {
-        $events = Event::orderBy('created_at', 'desc')->get();
+        $events = Cache::rememberForever('events', function () {
+            return Event::orderBy('created_at', 'desc')->get();
+        });
         return $events;
     }
 
     public function activeEvents()
     {
-        $events = Event::whereDate('startAt', '<=', date('Y-m-d'))
-                        ->whereDate('endAt', '>=', date('Y-m-d'))
-                        ->get();
+        $events = Cache::rememberForever('events', function () {
+            return Event::whereDate('startAt', '<=', date('Y-m-d'))
+            ->whereDate('endAt', '>=', date('Y-m-d'))
+            ->get();
+        });
         return $events;
     }
 
