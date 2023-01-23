@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Mail;
 use App\Mail\NotifyMail;
 
+
 class MainController extends Controller
 {
     public function index()
